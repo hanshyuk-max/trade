@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
+console.log("Loading auth routes...");
+
 router.post('/register', async (req, res) => {
     const { login_id, password, email, user_name, phone_number } = req.body;
 
