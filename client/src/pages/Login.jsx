@@ -13,12 +13,13 @@ const Login = () => {
     const { login } = useAuth();
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (login(username, password)) {
+        const result = await login(username, password);
+        if (result.success) {
             navigate('/dashboard');
         } else {
-            setError('Invalid credentials. Try admin / 1234');
+            setError(result.error || 'Invalid credentials. Try admin / 1234');
         }
     };
 
