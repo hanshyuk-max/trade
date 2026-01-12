@@ -45,6 +45,28 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const register = async (userData) => {
+        try {
+            const response = await fetch('http://localhost:3000/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(userData)
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Registration failed');
+            }
+
+            return { success: true, message: data.message };
+
+        } catch (err) {
+            console.error("Registration Error:", err);
+            return { success: false, error: err.message };
+        }
+    };
+
     const logout = () => {
         setUser(null);
         setIsAuthenticated(false);
@@ -53,7 +75,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated, login, logout, loading }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, login, logout, register, loading }}>
             {!loading && children}
         </AuthContext.Provider>
     );

@@ -5,11 +5,13 @@ import { useAuth } from '../context/AuthContext';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Lock, User } from 'lucide-react';
+import RegisterModal from '../components/auth/RegisterModal';
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [isRegisterOpen, setIsRegisterOpen] = useState(false);
     const { login } = useAuth();
     const navigate = useNavigate();
 
@@ -24,44 +26,44 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-[#F5F5F7] p-4">
+        <div className="min-h-screen flex items-center justify-center bg-background p-4">
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="max-w-md w-full bg-white rounded-3xl shadow-2xl overflow-hidden p-8 md:p-12 text-center"
+                className="max-w-md w-full bg-surface rounded-3xl shadow-2xl shadow-black/50 overflow-hidden p-8 md:p-12 text-center border border-zinc-800"
             >
                 <div className="mb-8">
-                    <div className="w-16 h-16 bg-black rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-black/20">
+                    <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-primary/20">
                         <span className="text-white text-2xl font-bold">A</span>
                     </div>
-                    <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Welcome Back</h1>
-                    <p className="text-gray-500 mt-2 text-lg">Sign in to manage your portfolio</p>
+                    <h1 className="text-3xl font-bold text-zinc-100 tracking-tight">Welcome Back</h1>
+                    <p className="text-zinc-400 mt-2 text-lg">Sign in to manage your portfolio</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6 text-left">
                     <div>
                         <div className="relative">
-                            <User className="absolute left-4 top-3.5 text-gray-400 w-5 h-5" />
+                            <User className="absolute left-4 top-3.5 text-zinc-500 w-5 h-5" />
                             <Input
                                 type="text"
                                 placeholder="Username"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
-                                className="pl-12"
+                                className="pl-12 bg-background border-zinc-700 text-zinc-100 placeholder:text-zinc-600 focus:border-primary focus:ring-primary/20"
                                 autoFocus
                             />
                         </div>
                     </div>
                     <div>
                         <div className="relative">
-                            <Lock className="absolute left-4 top-3.5 text-gray-400 w-5 h-5" />
+                            <Lock className="absolute left-4 top-3.5 text-zinc-500 w-5 h-5" />
                             <Input
                                 type="password"
                                 placeholder="Password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="pl-12"
+                                className="pl-12 bg-background border-zinc-700 text-zinc-100 placeholder:text-zinc-600 focus:border-primary focus:ring-primary/20"
                             />
                         </div>
                     </div>
@@ -70,21 +72,33 @@ const Login = () => {
                         <motion.div
                             initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="text-red-500 text-sm text-center"
+                            className="text-red-400 text-sm text-center"
                         >
                             {error}
                         </motion.div>
                     )}
 
-                    <Button type="submit" className="w-full py-4 text-lg rounded-xl shadow-xl shadow-blue-500/20">
+                    <Button type="submit" className="w-full py-4 text-lg rounded-xl shadow-xl shadow-primary/20 bg-primary hover:bg-primary/90 text-white">
                         Sign In
                     </Button>
                 </form>
 
-                <div className="mt-8 text-sm text-gray-400">
-                    Protected by Antigravity Intelligence
+                <div className="mt-8 text-sm text-zinc-600 space-y-4">
+                    <p>Protected by Antigravity Intelligence</p>
+
+                    <div className="pt-4 border-t border-zinc-800">
+                        <p className="text-zinc-500 mb-3">Don't have an account?</p>
+                        <button
+                            onClick={() => setIsRegisterOpen(true)}
+                            className="text-primary hover:text-primary/80 font-medium transition-colors"
+                        >
+                            Create an Account
+                        </button>
+                    </div>
                 </div>
             </motion.div>
+
+            <RegisterModal isOpen={isRegisterOpen} onClose={() => setIsRegisterOpen(false)} />
         </div>
     );
 };
