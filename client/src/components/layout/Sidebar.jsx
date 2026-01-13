@@ -1,19 +1,23 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Home, TrendingUp, History, Wallet, Users, LogOut, Settings } from 'lucide-react';
+import { Home, TrendingUp, History, Wallet, Users, LogOut, Settings, Globe } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { cn } from '../../lib/utils'; // Assuming you have this utility
+import { cn } from '../../lib/utils';
+import { useTranslation } from 'react-i18next';
 
 const Sidebar = () => {
     const { logout } = useAuth();
+    const { t } = useTranslation();
 
     // Using a more structured array for nav items for better maintainability (similar to recent best practices)
     const navItems = [
-        { name: 'Dashboard', to: '/dashboard', icon: Home },
-        { name: 'Trade', to: '/trade', icon: TrendingUp },
-        { name: 'History', to: '/history', icon: History },
-        { name: 'Capital', to: '/capital', icon: Wallet },
-        { name: 'Users', to: '/users', icon: Users },
+        { name: t('MENU_DASHBOARD'), to: '/dashboard', icon: Home },
+        { name: t('MENU_TRADE'), to: '/trade', icon: TrendingUp },
+        { name: t('MENU_HISTORY'), to: '/history', icon: History },
+        { name: t('MENU_CAPITAL'), to: '/capital', icon: Wallet },
+        { name: t('MENU_USERS'), to: '/users', icon: Users },
+        { name: t('MENU_SYSCONFIG'), to: '/system/config', icon: Settings },
+        { name: t('MENU_MESSAGES'), to: '/system/messages', icon: Globe },
     ];
 
     return (
@@ -28,7 +32,7 @@ const Sidebar = () => {
 
             {/* Navigation Links */}
             <nav className="flex-1 px-4 space-y-2 overflow-y-auto">
-                <div className="text-xs font-medium text-zinc-500 uppercase px-4 mb-2 tracking-wider">Menu</div>
+                <div className="text-xs font-medium text-zinc-500 uppercase px-4 mb-2 tracking-wider">{t('MENU_TITLE')}</div>
                 {navItems.map((item) => (
                     <NavLink
                         key={item.name}
@@ -46,14 +50,13 @@ const Sidebar = () => {
                 ))}
             </nav>
 
-            {/* Bottom Actions */}
             <div className="p-4 border-t border-zinc-800">
                 <button
                     onClick={logout}
                     className="flex items-center gap-3 px-4 py-3 w-full text-sm font-medium text-red-500 hover:bg-red-500/10 rounded-xl transition-colors"
                 >
                     <LogOut className="w-5 h-5" />
-                    Sign Out
+                    {t('MENU_SIGNOUT')}
                 </button>
             </div>
         </aside>

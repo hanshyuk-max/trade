@@ -6,8 +6,10 @@ import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Lock, User } from 'lucide-react';
 import RegisterModal from '../components/auth/RegisterModal';
+import { useTranslation } from 'react-i18next'; // Import useTranslation
 
 const Login = () => {
+    const { t, i18n } = useTranslation(); // Hook
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -15,18 +17,26 @@ const Login = () => {
     const { login } = useAuth();
     const navigate = useNavigate();
 
+    const changeLanguage = (lang) => {
+        i18n.changeLanguage(lang);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const result = await login(username, password);
         if (result.success) {
             navigate('/dashboard');
         } else {
-            setError(result.error || 'Invalid credentials. Try admin / 1234');
+            setError(result.error || t('LOGIN_INVALID_CREDENTIALS'));
         }
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-background p-4">
+        <div className="min-h-screen flex items-center justify-center bg-background p-4 relative">
+            <div className="absolute top-4 right-4 flex gap-2">
+                <button onClick={() => changeLanguage('ko')} className={`px-3 py-1 rounded text-sm ${i18n.language === 'ko' ? 'bg-primary text-white' : 'text-zinc-400 hover:text-white'}`}>KO</button>
+                <button onClick={() => changeLanguage('en')} className={`px-3 py-1 rounded text-sm ${i18n.language === 'en' ? 'bg-primary text-white' : 'text-zinc-400 hover:text-white'}`}>EN</button>
+            </div>
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -37,8 +47,8 @@ const Login = () => {
                     <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-primary/20">
                         <span className="text-white text-2xl font-bold">A</span>
                     </div>
-                    <h1 className="text-3xl font-bold text-zinc-100 tracking-tight">Welcome Back</h1>
-                    <p className="text-zinc-400 mt-2 text-lg">Sign in to manage your portfolio</p>
+                    <h1 className="text-3xl font-bold text-zinc-100 tracking-tight">{t('LOGIN_TITLE')}</h1>
+                    <p className="text-zinc-400 mt-2 text-lg">{t('LOGIN_SUBTITLE')}</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6 text-left">
@@ -47,7 +57,7 @@ const Login = () => {
                             <User className="absolute left-4 top-3.5 text-zinc-500 w-5 h-5" />
                             <Input
                                 type="text"
-                                placeholder="Username"
+                                placeholder={t('LOGIN_USERNAME')}
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
                                 className="pl-12 bg-background border-zinc-700 text-zinc-100 placeholder:text-zinc-600 focus:border-primary focus:ring-primary/20"
@@ -60,7 +70,7 @@ const Login = () => {
                             <Lock className="absolute left-4 top-3.5 text-zinc-500 w-5 h-5" />
                             <Input
                                 type="password"
-                                placeholder="Password"
+                                placeholder={t('LOGIN_PASSWORD')}
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 className="pl-12 bg-background border-zinc-700 text-zinc-100 placeholder:text-zinc-600 focus:border-primary focus:ring-primary/20"
@@ -79,7 +89,7 @@ const Login = () => {
                     )}
 
                     <Button type="submit" className="w-full py-4 text-lg rounded-xl shadow-xl shadow-primary/20 bg-primary hover:bg-primary/90 text-white">
-                        Sign In
+                        {t('LOGIN_BTN')}
                     </Button>
                 </form>
 
@@ -87,12 +97,12 @@ const Login = () => {
                     <p>Protected by Antigravity Intelligence</p>
 
                     <div className="pt-4 border-t border-zinc-800">
-                        <p className="text-zinc-500 mb-3">Don't have an account?</p>
+                        <p className="text-zinc-500 mb-3">{t('LOGIN_FOOTER_TEXT')}</p>
                         <button
                             onClick={() => setIsRegisterOpen(true)}
                             className="text-primary hover:text-primary/80 font-medium transition-colors"
                         >
-                            Create an Account
+                            {t('LOGIN_CREATE_ACCOUNT')}
                         </button>
                     </div>
                 </div>

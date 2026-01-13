@@ -8,7 +8,9 @@ import Dashboard from './pages/Dashboard';
 import Trade from './pages/Trade';
 import History from './pages/History';
 import Capital from './pages/Capital';
+import MessageManagement from './pages/MessageManagement';
 import Users from './pages/Users';
+import SystemConfig from './pages/SystemConfig';
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
               <Route path="/history" element={<History />} />
               <Route path="/capital" element={<Capital />} />
               <Route path="/users" element={<Users />} />
+              <Route path="/system/config" element={<SystemConfig />} />
+              <Route path="/system/messages" element={<MessageManagement />} />
             </Route>
           </Route>
 

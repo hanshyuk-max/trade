@@ -16,9 +16,16 @@ app.get('/', (req, res) => {
 
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
+const configRoutes = require('./routes/config');
+const messageRoutes = require('./routes/messages');
+
+console.log("Loading auth routes...");
+console.log("Loading user routes...");
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/config', configRoutes);
+app.use('/api/messages', messageRoutes); // Config Management Routes
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
