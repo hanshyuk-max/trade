@@ -27,6 +27,6 @@ app.use('/api/users', userRoutes);
 app.use('/api/config', configRoutes);
 app.use('/api/messages', messageRoutes); // Config Management Routes
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
     console.log(`Server is running on port ${port}`);
 });
