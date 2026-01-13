@@ -30,7 +30,14 @@ export const AuthProvider = ({ children }) => {
                 body: JSON.stringify({ username, password })
             });
 
-            const data = await response.json();
+            const text = await response.text();
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch (e) {
+                console.error("Login JSON Parse Error:", text);
+                throw new Error("Server returned invalid response. Check console.");
+            }
 
             if (!response.ok) {
                 throw new Error(data.error || 'Login failed');
@@ -66,7 +73,14 @@ export const AuthProvider = ({ children }) => {
                 body: JSON.stringify({ username, password, action })
             });
 
-            const data = await response.json();
+            const text = await response.text();
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch (e) {
+                console.error("Concurrent Login JSON Parse Error:", text);
+                throw new Error("Server returned invalid response.");
+            }
 
             if (!response.ok) throw new Error(data.error || 'Login failed');
 
@@ -89,7 +103,14 @@ export const AuthProvider = ({ children }) => {
                 body: JSON.stringify(userData)
             });
 
-            const data = await response.json();
+            const text = await response.text();
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch (e) {
+                console.error("Register JSON Parse Error:", text);
+                throw new Error("Server returned invalid response.");
+            }
 
             if (!response.ok) {
                 throw new Error(data.error || 'Registration failed');
