@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
                 data = JSON.parse(text);
             } catch (e) {
                 console.error("Login JSON Parse Error:", text);
-                alert("Login Error (Raw Response): " + text.substring(0, 500)); // Show user the error
+                alert(`Login Error: Status ${response.status} ${response.statusText}\nRaw Response: "${text}"`);
                 throw new Error("Server returned invalid response. Check popup.");
             }
 
