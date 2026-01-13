@@ -19,7 +19,7 @@ const MessageManagement = () => {
         TEXT_KO: '', TEXT_EN: ''
     });
 
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+    const API_URL = import.meta.env.VITE_API_URL || '';
 
     const fetchMessages = async () => {
         try {
