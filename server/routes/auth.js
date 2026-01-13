@@ -68,7 +68,7 @@ router.post('/login', async (req, res) => {
         }
 
         // --- Concurrent Session Check ---
-        const activeSessions = await db.query("SELECT * FROM user_sessions WHERE user_id = $1", [user.user_id]);
+        // const activeSessions = await db.query("SELECT * FROM user_sessions WHERE user_id = $1", [user.user_id]);
 
         // Helper to create session
         const createSession = async (userId, deviceInfo, ip) => {
@@ -83,6 +83,7 @@ router.post('/login', async (req, res) => {
         const currentDeviceInfo = req.headers['user-agent'] || 'Unknown Device';
         const clientIp = req.ip;
 
+        /*
         if (activeSessions.rows.length > 0) {
             // Found existing session(s)
             return res.json({
@@ -95,6 +96,7 @@ router.post('/login', async (req, res) => {
                 }))
             });
         }
+        */
 
         // No active session, proceed to create one
         const token = await createSession(user.user_id, currentDeviceInfo, clientIp);
