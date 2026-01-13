@@ -10,15 +10,19 @@ const Sidebar = () => {
     const { t } = useTranslation();
 
     // Using a more structured array for nav items for better maintainability (similar to recent best practices)
-    const navItems = [
-        { name: t('MENU_DASHBOARD'), to: '/dashboard', icon: Home },
-        { name: t('MENU_TRADE'), to: '/trade', icon: TrendingUp },
-        { name: t('MENU_HISTORY'), to: '/history', icon: History },
-        { name: t('MENU_CAPITAL'), to: '/capital', icon: Wallet },
-        { name: t('MENU_USERS'), to: '/users', icon: Users },
-        { name: t('MENU_SYSCONFIG'), to: '/system/config', icon: Settings },
-        { name: t('MENU_MESSAGES'), to: '/system/messages', icon: Globe },
+    const allNavItems = [
+        { name: t('MENU_DASHBOARD'), to: '/dashboard', icon: Home, roles: ['USER', 'ADMIN', 'MANAGER'] },
+        { name: t('MENU_TRADE'), to: '/trade', icon: TrendingUp, roles: ['USER', 'ADMIN', 'MANAGER'] },
+        { name: t('MENU_HISTORY'), to: '/history', icon: History, roles: ['USER', 'ADMIN', 'MANAGER'] },
+        { name: t('MENU_CAPITAL'), to: '/capital', icon: Wallet, roles: ['USER', 'ADMIN', 'MANAGER'] },
+        { name: t('MENU_USERS'), to: '/users', icon: Users, roles: ['ADMIN'] },
+        { name: t('MENU_SYSCONFIG'), to: '/system/config', icon: Settings, roles: ['ADMIN'] },
+        { name: t('MENU_MESSAGES'), to: '/system/messages', icon: Globe, roles: ['ADMIN'] },
     ];
+
+    // Filter items based on user role (default to USER if no role)
+    const userRole = useAuth().user?.role || 'USER';
+    const navItems = allNavItems.filter(item => item.roles.includes(userRole));
 
     return (
         <aside className="w-64 bg-surface/80 backdrop-blur-xl h-screen border-r border-zinc-800 flex flex-col fixed left-0 top-0 z-50">
