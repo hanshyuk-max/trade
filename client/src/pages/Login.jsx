@@ -6,28 +6,50 @@ import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Lock, User } from 'lucide-react';
 import RegisterModal from '../components/auth/RegisterModal';
-import { useTranslation } from 'react-i18next'; // Import useTranslation
+import ConcurrentLoginModal from '../components/auth/ConcurrentLoginModal';
+import { useTranslation } from 'react-i18next';
 
 const Login = () => {
-    const { t, i18n } = useTranslation(); // Hook
+    const { t, i18n } = useTranslation();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+    const [error, setError] = useState(null);
     const [isRegisterOpen, setIsRegisterOpen] = useState(false);
-    const { login } = useAuth();
+
+    // Concurrent Login State
+    const [showConcurrentModal, setShowConcurrentModal] = useState(false);
+    const [activeSessions, setActiveSessions] = useState([]);
+
+    const { login, register, resolveConcurrentLogin } = useAuth();
     const navigate = useNavigate();
 
-    const changeLanguage = (lang) => {
-        i18n.changeLanguage(lang);
+    const changeLanguage = (lng) => {
+        i18n.changeLanguage(lng);
+        localStorage.setItem('i18nextLng', lng);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError(null);
+
         const result = await login(username, password);
         if (result.success) {
             navigate('/dashboard');
+        } else if (result.status === 'CONCURRENT_LOGIN') {
+            setActiveSessions(result.sessions);
+            setShowConcurrentModal(true);
         } else {
             setError(result.error || t('LOGIN_INVALID_CREDENTIALS'));
+        }
+    };
+
+    const handleConcurrentAction = async (action) => {
+        const result = await resolveConcurrentLogin(username, password, action);
+        setShowConcurrentModal(false);
+        if (result.success) {
+            navigate('/dashboard');
+        } else {
+            setError(result.error || 'Login failed during session resolution');
         }
     };
 
@@ -37,6 +59,14 @@ const Login = () => {
                 <button onClick={() => changeLanguage('ko')} className={`px-3 py-1 rounded text-sm ${i18n.language === 'ko' ? 'bg-primary text-white' : 'text-zinc-400 hover:text-white'}`}>KO</button>
                 <button onClick={() => changeLanguage('en')} className={`px-3 py-1 rounded text-sm ${i18n.language === 'en' ? 'bg-primary text-white' : 'text-zinc-400 hover:text-white'}`}>EN</button>
             </div>
+
+            <ConcurrentLoginModal
+                isOpen={showConcurrentModal}
+                sessions={activeSessions}
+                onConfirm={handleConcurrentAction}
+                onClose={() => setShowConcurrentModal(false)}
+            />
+
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}

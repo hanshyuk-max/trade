@@ -174,3 +174,19 @@ CREATE TRIGGER update_msg_modtime
     BEFORE UPDATE ON COM_MSG_MST
     FOR EACH ROW
     EXECUTE PROCEDURE update_config_timestamp();
+
+-- 10. 사용자 세션 관리 (Concurrent Login Control)
+CREATE TABLE IF NOT EXISTS user_sessions (
+    session_id      UUID          PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id         BIGINT        NOT NULL,
+    session_token   VARCHAR(255)  NOT NULL UNIQUE, -- JWT or Opaque Token
+    device_info     TEXT,                          -- User-Agent or custom device name
+    ip_address      VARCHAR(45),
+    last_accessed_at TIMESTAMPTZ  DEFAULT CURRENT_TIMESTAMP,
+    created_at      TIMESTAMPTZ   DEFAULT CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
+CREATE INDEX idx_sessions_user_id ON user_sessions(user_id);
+CREATE INDEX idx_sessions_token ON user_sessions(session_token);
