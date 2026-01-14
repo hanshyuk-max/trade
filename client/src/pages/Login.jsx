@@ -6,16 +6,11 @@ import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Lock, User } from 'lucide-react';
 import RegisterModal from '../components/auth/RegisterModal';
-<<<<<<< HEAD
 import ConcurrentLoginModal from '../components/auth/ConcurrentLoginModal';
 import { useTranslation } from 'react-i18next';
 
 const Login = () => {
     const { t, i18n } = useTranslation();
-=======
-
-const Login = () => {
->>>>>>> parent of 584be5b (26.01.13-1)
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
@@ -28,14 +23,10 @@ const Login = () => {
     const { login, register, resolveConcurrentLogin } = useAuth();
     const navigate = useNavigate();
 
-<<<<<<< HEAD
     const changeLanguage = (lng) => {
         i18n.changeLanguage(lng);
         localStorage.setItem('i18nextLng', lng);
     };
-
-=======
->>>>>>> parent of 584be5b (26.01.13-1)
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
@@ -62,7 +53,6 @@ const Login = () => {
     };
 
     return (
-<<<<<<< HEAD
         <div className="min-h-screen flex items-center justify-center bg-background p-4 relative">
             <div className="absolute top-4 right-4 flex gap-2">
                 <button onClick={() => changeLanguage('ko')} className={`px-3 py-1 rounded text-sm ${i18n.language === 'ko' ? 'bg-primary text-white' : 'text-zinc-400 hover:text-white'}`}>KO</button>
@@ -75,10 +65,6 @@ const Login = () => {
                 onConfirm={handleConcurrentAction}
                 onClose={() => setShowConcurrentModal(false)}
             />
-
-=======
-        <div className="min-h-screen flex items-center justify-center bg-background p-4">
->>>>>>> parent of 584be5b (26.01.13-1)
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
