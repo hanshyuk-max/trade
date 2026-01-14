@@ -37,6 +37,11 @@ app.use('/api/users', userRoutes);
 app.use('/api/config', configRoutes);
 app.use('/api/messages', messageRoutes); // Config Management Routes
 
-app.listen(port, '0.0.0.0', () => {
-    console.log(`Server is running on port ${port}`);
-});
+// Only listen if not running in Vercel (local development)
+if (require.main === module) {
+    app.listen(port, '0.0.0.0', () => {
+        console.log(`Server is running on port ${port}`);
+    });
+}
+
+module.exports = app;
