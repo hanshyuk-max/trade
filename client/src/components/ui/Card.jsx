@@ -1,3 +1,10 @@
+/**
+ * UI Card Component
+ * 
+ * Reusable container component for content grouping.
+ * 
+ * Last Modified: 2026-01-14
+ */
 import React from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '../../lib/utils';

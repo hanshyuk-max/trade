@@ -1,3 +1,10 @@
+/**
+ * Transaction History Page
+ * 
+ * Displays list of past trades and transactions.
+ * 
+ * Last Modified: 2026-01-14
+ */
 import React from 'react';
 import { Card } from '../components/ui/Card';
 

@@ -1,3 +1,10 @@
+/**
+ * Authentication Routes
+ * 
+ * Handles user registration, login, logout, and concurrent session management.
+ * 
+ * Last Modified: 2026-01-14
+ */
 const express = require('express');
 const router = express.Router();
 const db = require('../db');
@@ -8,7 +15,7 @@ router.post('/register', async (req, res) => {
     const { login_id, password, email, user_name, phone_number } = req.body;
 
     try {
-        // Check if user exists
+        // 1. Check if user already exists (Login ID or Email)
         const userCheck = await db.query(
             "SELECT * FROM users WHERE login_id = $1 OR email = $2",
             [login_id, email]
@@ -18,23 +25,23 @@ router.post('/register', async (req, res) => {
             return res.status(400).json({ error: 'Username or Email already exists' });
         }
 
-        // Insert new user with PENDING status (default in schema)
-        // In production, password should be hashed
+        // 2. Insert new user
+        // Note: Password is plaintext for demo. Use hashing in production.
         const newUser = await db.query(
-            `INSERT INTO users (login_id, password_hash, email, user_name, phone_number)
-             VALUES ($1, $2, $3, $4, $5)
+            `INSERT INTO users (login_id, password_hash, email, user_name, phone_number, status)
+             VALUES ($1, $2, $3, $4, $5, 'PENDING')
              RETURNING user_id, login_id, user_name, status`,
             [login_id, password, email, user_name, phone_number]
         );
 
         res.status(201).json({
-            message: 'Registration successful. Please wait for admin approval.',
+            message: 'Registration successful. Account is pending approval.',
             user: newUser.rows[0]
         });
 
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Server error during registration' });
+        console.error("Registration Error:", err);
+        res.status(500).json({ error: 'Registration failed. Please try again.' });
     }
 });
 
@@ -42,9 +49,11 @@ router.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
     try {
-        // Simple plaintext password check for demo as requested (mock was admin/1234)
-        // In production, use bcrypt.compare(password, user.password_hash)
+        // [Security Note]
+        // For this demo application, we are using plaintext passwords.
+        // In a production environment, you MUST use bcrypt or Argon2 to hash passwords.
 
+        // 1. Check if user exists
         const result = await db.query("SELECT * FROM users WHERE login_id = $1", [username]);
 
         if (result.rows.length === 0) {
@@ -53,58 +62,35 @@ router.post('/login', async (req, res) => {
 
         const user = result.rows[0];
 
-        // Check password (again, simple check for now)
-        // Check password (again, simple check for now)
+        // 2. Validate Password
         if (user.password_hash !== password) {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
 
+        // 3. Check Account Status
         if (user.status === 'PENDING') {
             return res.status(403).json({ error: 'Account is pending approval' });
         }
-
         if (user.status !== 'ACTIVE') {
             return res.status(403).json({ error: 'Account is not active' });
         }
 
-        // --- Concurrent Session Check ---
-        // const activeSessions = await db.query("SELECT * FROM user_sessions WHERE user_id = $1", [user.user_id]);
-
-        // Helper to create session
-        const createSession = async (userId, deviceInfo, ip) => {
-            const token = Math.random().toString(36).substring(2) + Date.now().toString(36); // Simple token
-            await db.query(
-                "INSERT INTO user_sessions (user_id, session_token, device_info, ip_address) VALUES ($1, $2, $3, $4)",
-                [userId, token, deviceInfo, ip]
-            );
-            return token;
-        };
-
+        // 4. Create Session
+        // (Concurrent session logic has been disabled for easier access)
         const currentDeviceInfo = req.headers['user-agent'] || 'Unknown Device';
         const clientIp = req.ip;
 
-        /*
-        if (activeSessions.rows.length > 0) {
-            // Found existing session(s)
-            return res.json({
-                status: 'CONCURRENT_LOGIN',
-                message: 'Active session detected.',
-                sessions: activeSessions.rows.map(s => ({
-                    device: s.device_info,
-                    last_accessed: s.last_accessed_at,
-                    ip: s.ip_address
-                }))
-            });
-        }
-        */
+        const token = Math.random().toString(36).substring(2) + Date.now().toString(36);
 
-        // No active session, proceed to create one
-        const token = await createSession(user.user_id, currentDeviceInfo, clientIp);
+        await db.query(
+            "INSERT INTO user_sessions (user_id, session_token, device_info, ip_address) VALUES ($1, $2, $3, $4)",
+            [user.user_id, token, currentDeviceInfo, clientIp]
+        );
 
-        // Update last login
+        // 5. Update Last Login Time
         await db.query("UPDATE users SET last_login_at = CURRENT_TIMESTAMP WHERE user_id = $1", [user.user_id]);
 
-        // Remove sensitive info
+        // Remove sensitive data before sending response
         delete user.password_hash;
 
         res.json({
@@ -119,8 +105,8 @@ router.post('/login', async (req, res) => {
         });
 
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Server error' });
+        console.error("Login Error:", err);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 

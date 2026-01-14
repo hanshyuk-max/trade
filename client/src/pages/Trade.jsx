@@ -1,3 +1,10 @@
+/**
+ * Trading Page
+ * 
+ * Interface for executing buy/sell orders.
+ * 
+ * Last Modified: 2026-01-14
+ */
 import React, { useState } from 'react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';

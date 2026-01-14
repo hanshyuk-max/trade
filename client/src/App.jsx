@@ -1,3 +1,10 @@
+/**
+ * Main Application Component
+ * 
+ * Handles client-side routing, theme providers, and global layout structure.
+ * 
+ * Last Modified: 2026-01-14
+ */
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
@@ -9,9 +16,6 @@ import Trade from './pages/Trade';
 import History from './pages/History';
 import Capital from './pages/Capital';
 import Users from './pages/Users';
-
-
-
 function App() {
   return (
     <AuthProvider>

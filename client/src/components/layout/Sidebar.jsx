@@ -1,3 +1,10 @@
+/**
+ * Sidebar Navigation Component
+ * 
+ * Renders the side navigation menu with links to different pages.
+ * 
+ * Last Modified: 2026-01-14
+ */
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Home, TrendingUp, History, Wallet, Users, LogOut, Settings } from 'lucide-react';

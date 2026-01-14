@@ -1,3 +1,10 @@
+/**
+ * User Management Routes
+ * 
+ * internal API for listing, updating, and deleting users.
+ * 
+ * Last Modified: 2026-01-14
+ */
 const express = require('express');
 const router = express.Router();
 const db = require('../db');

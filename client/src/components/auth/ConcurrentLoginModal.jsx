@@ -1,3 +1,10 @@
+/**
+ * Concurrent Login Modal
+ * 
+ * Dialog presented when a user is already logged in elsewhere, offering options to force login.
+ * 
+ * Last Modified: 2026-01-14
+ */
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AlertTriangle, Smartphone, Monitor, Check, X } from 'lucide-react';

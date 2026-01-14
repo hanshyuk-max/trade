@@ -1,3 +1,10 @@
+/**
+ * User Management Page (Admin)
+ * 
+ * Interface for viewing and managing registered users.
+ * 
+ * Last Modified: 2026-01-14
+ */
 import React, { useState, useEffect } from 'react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
@@ -147,8 +154,8 @@ const Users = () => {
                                     </td>
                                     <td className="py-4 px-6">
                                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${user.status === 'ACTIVE' ? 'bg-green-500/10 text-green-400 border border-green-500/20' :
-                                                user.status === 'PENDING' ? 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20' :
-                                                    'bg-red-500/10 text-red-400 border border-red-500/20'
+                                            user.status === 'PENDING' ? 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20' :
+                                                'bg-red-500/10 text-red-400 border border-red-500/20'
                                             }`}>
                                             {user.status}
                                         </span>

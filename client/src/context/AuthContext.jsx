@@ -1,3 +1,10 @@
+/**
+ * Authentication Context
+ * 
+ * Manages global authentication state (user, token) and provides login/register methods.
+ * 
+ * Last Modified: 2026-01-14
+ */
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext(null);
@@ -19,34 +26,38 @@ export const AuthProvider = ({ children }) => {
         setLoading(false);
     }, []);
 
+    /**
+     * Authenticate user with username and password.
+     * Handles both standard login and concurrent session checks.
+     */
     const login = async (username, password) => {
         try {
-            // Use relative path - Vite proxy will handle the redirect
-            // If VITE_API_URL is set (e.g. prod), use it; otherwise empty string for relative
+            // Determine API URL:
+            // - Development: Empty string (relies on Vite proxy)
+            // - Production: Use VITE_API_URL from environment variables
             const API_URL = import.meta.env.VITE_API_URL || '';
+
             const response = await fetch(`${API_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password })
             });
 
+            // Parse response safely
             const text = await response.text();
             let data;
             try {
                 data = JSON.parse(text);
             } catch (e) {
-                console.error("Login JSON Parse Error:", text);
-                alert(`[v2] Login Error: Status ${response.status} ${response.statusText}\nRaw Response: "${text}"`);
-                throw new Error("Server returned invalid response. Check popup.");
+                console.error("Login Parse Error:", text);
+                throw new Error("Invalid server response.");
             }
 
             if (!response.ok) {
-                const errorMsg = data.error || 'Login failed';
-                console.error(`Login Failed: ${response.status} ${response.statusText}`, data);
-                throw new Error(`${errorMsg} (Status: ${response.status})`);
+                throw new Error(data.error || `Login failed (${response.status})`);
             }
 
-            // Handle Concurrent Login
+            // Handle Concurrent Login (if server returns this status)
             if (data.status === 'CONCURRENT_LOGIN') {
                 return {
                     success: false,
@@ -55,17 +66,19 @@ export const AuthProvider = ({ children }) => {
                 };
             }
 
+            // Success: Set user state and persist token
             setUser(data.user);
             setIsAuthenticated(true);
             localStorage.setItem('user', JSON.stringify(data.user));
             localStorage.setItem('token', data.token);
+
             return { success: true };
 
         } catch (err) {
-            console.error("Login Critical Error:", err);
-            // Show more details in the alert
-            const API_URL = import.meta.env.VITE_API_URL || '(relative)';
-            alert(`Login Error: ${err.message}\nRequest URL: ${API_URL}/api/auth/login\nPlease check console for details.`);
+            console.error("Login Error:", err);
+            // Display friendly error message
+            const API_URL = import.meta.env.VITE_API_URL || '(Local Proxy)';
+            alert(`Login Attempt Failed.\nError: ${err.message}\nCheck console for details.`);
             return { success: false, error: err.message };
         }
     };

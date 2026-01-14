@@ -1,3 +1,10 @@
+/**
+ * Vite Configuration
+ * 
+ * Configures the build tool, including React plugins and proxy settings for local development.
+ * 
+ * Last Modified: 2026-01-14
+ */
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 

@@ -1,3 +1,10 @@
+/**
+ * Login Page
+ * 
+ * Handles user login interactions with concurrent session management modal.
+ * 
+ * Last Modified: 2026-01-14
+ */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';

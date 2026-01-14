@@ -1,3 +1,10 @@
+/**
+ * Capital Management Page
+ * 
+ * Tracks user capital, deposits, and withdrawals.
+ * 
+ * Last Modified: 2026-01-14
+ */
 import React from 'react';
 import { Card } from '../components/ui/Card';
 

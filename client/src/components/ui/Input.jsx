@@ -1,3 +1,10 @@
+/**
+ * UI Input Component
+ * 
+ * Reusable form input component with consistent styling.
+ * 
+ * Last Modified: 2026-01-14
+ */
 import React from 'react';
 import { cn } from '../../lib/utils';
 

@@ -1,3 +1,10 @@
+/**
+ * Main Layout Component
+ * 
+ * Wraps authenticated pages with a Sidebar and consistent structure.
+ * 
+ * Last Modified: 2026-01-14
+ */
 import React from 'react';
 import Sidebar from './Sidebar';
 import { Outlet } from 'react-router-dom';

@@ -1,3 +1,10 @@
+/**
+ * Dashboard Page
+ * 
+ * Displays the main user dashboard with portfolio summary.
+ * 
+ * Last Modified: 2026-01-14
+ */
 import React from 'react';
 import { Card } from '../components/ui/Card';
 

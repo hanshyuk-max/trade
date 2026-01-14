@@ -1,3 +1,10 @@
+/**
+ * Registration Modal
+ * 
+ * Dialog for creating a new user account.
+ * 
+ * Last Modified: 2026-01-14
+ */
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, User, Lock, Mail, Phone, Loader2 } from 'lucide-react';

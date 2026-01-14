@@ -1,3 +1,10 @@
+/**
+ * UI Button Component
+ * 
+ * Reusable button component with variant styles.
+ * 
+ * Last Modified: 2026-01-14
+ */
 import React from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '../../lib/utils';

@@ -1,3 +1,10 @@
+/**
+ * Message Management Page (Admin)
+ * 
+ * Allows admins to manage system messages and notifications.
+ * 
+ * Last Modified: 2026-01-14
+ */
 import React, { useState, useEffect } from 'react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';

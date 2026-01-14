@@ -1,3 +1,11 @@
+/**
+ * Server Entry Point
+ * 
+ * Configures Express server, middleware (CORS, JSON), and routes.
+ * Handles database connections and server startup.
+ * 
+ * Last Modified: 2026-01-14
+ */
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
@@ -13,8 +21,10 @@ app.use((req, res, next) => {
     next();
 });
 
+// CORS Configuration
+// Allow all origins for development, but in production, you should restrict this
 app.use(cors({
-    origin: '*', // Allow all origins for debugging
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -30,7 +40,9 @@ const userRoutes = require('./routes/users');
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 
-// Only listen if not running in Vercel (local development)
+// Vercel Serverless Function Export
+// If running locally (node index.js), this block executes.
+// If running on Vercel, this block is skipped and the app is exported.
 if (require.main === module) {
     app.listen(port, '0.0.0.0', () => {
         console.log(`Server is running on port ${port}`);
