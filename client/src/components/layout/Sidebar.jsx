@@ -7,29 +7,18 @@ import { cn } from '../../lib/utils'; // Assuming you have this utility
 const Sidebar = () => {
     const { logout } = useAuth();
 
-    // Using a more structured array for nav items for better maintainability (similar to recent best practices)
-<<<<<<< HEAD
-    const allNavItems = [
-        { name: t('MENU_DASHBOARD'), to: '/dashboard', icon: Home, roles: ['USER', 'ADMIN', 'MANAGER'] },
-        { name: t('MENU_TRADE'), to: '/trade', icon: TrendingUp, roles: ['USER', 'ADMIN', 'MANAGER'] },
-        { name: t('MENU_HISTORY'), to: '/history', icon: History, roles: ['USER', 'ADMIN', 'MANAGER'] },
-        { name: t('MENU_CAPITAL'), to: '/capital', icon: Wallet, roles: ['USER', 'ADMIN', 'MANAGER'] },
-        { name: t('MENU_USERS'), to: '/users', icon: Users, roles: ['ADMIN'] },
-        { name: t('MENU_SYSCONFIG'), to: '/system/config', icon: Settings, roles: ['ADMIN'] },
-        { name: t('MENU_MESSAGES'), to: '/system/messages', icon: Globe, roles: ['ADMIN'] },
-=======
     const navItems = [
-        { name: 'Dashboard', to: '/dashboard', icon: Home },
-        { name: 'Trade', to: '/trade', icon: TrendingUp },
-        { name: 'History', to: '/history', icon: History },
-        { name: 'Capital', to: '/capital', icon: Wallet },
-        { name: 'Users', to: '/users', icon: Users },
->>>>>>> parent of 584be5b (26.01.13-1)
+        { name: 'Dashboard', to: '/dashboard', icon: Home, roles: ['USER', 'ADMIN', 'MANAGER'] },
+        { name: 'Trade', to: '/trade', icon: TrendingUp, roles: ['USER', 'ADMIN', 'MANAGER'] },
+        { name: 'History', to: '/history', icon: History, roles: ['USER', 'ADMIN', 'MANAGER'] },
+        { name: 'Capital', to: '/capital', icon: Wallet, roles: ['USER', 'ADMIN', 'MANAGER'] },
+        { name: 'Users', to: '/users', icon: Users, roles: ['ADMIN'] },
+        // { name: 'Messages', to: '/system/messages', icon: Globe, roles: ['ADMIN'] }, // Removed
     ];
 
     // Filter items based on user role (default to USER if no role)
-    const userRole = useAuth().user?.role || 'USER';
-    const navItems = allNavItems.filter(item => item.roles.includes(userRole));
+    // const userRole = useAuth().user?.role || 'USER';
+    // const activeNavItems = navItems.filter(item => item.roles.includes(userRole));
 
     return (
         <aside className="w-64 bg-surface/80 backdrop-blur-xl h-screen border-r border-zinc-800 flex flex-col fixed left-0 top-0 z-50">
