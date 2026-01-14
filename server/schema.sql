@@ -66,6 +66,7 @@ CREATE TRIGGER update_user_modtime
     BEFORE UPDATE ON users
     FOR EACH ROW
     EXECUTE PROCEDURE update_timestamp_column();
+<<<<<<< HEAD
 
 -- 5. 시스템 설정 관리 테이블 (System Configuration)
 CREATE TABLE IF NOT EXISTS COM_SYS_CONFIG (
@@ -190,3 +191,5 @@ CREATE TABLE IF NOT EXISTS user_sessions (
 
 CREATE INDEX idx_sessions_user_id ON user_sessions(user_id);
 CREATE INDEX idx_sessions_token ON user_sessions(session_token);
+=======
+>>>>>>> parent of 584be5b (26.01.13-1)
