@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
         try {
             // Use relative path - Vite proxy will handle the redirect
             // If VITE_API_URL is set (e.g. prod), use it; otherwise empty string for relative
-            const API_URL = 'http://localhost:3000'; // Force direct connection for debugging
+            const API_URL = import.meta.env.VITE_API_URL || '';
             const response = await fetch(`${API_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
