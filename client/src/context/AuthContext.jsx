@@ -41,7 +41,9 @@ export const AuthProvider = ({ children }) => {
             }
 
             if (!response.ok) {
-                throw new Error(data.error || 'Login failed');
+                const errorMsg = data.error || 'Login failed';
+                console.error(`Login Failed: ${response.status} ${response.statusText}`, data);
+                throw new Error(`${errorMsg} (Status: ${response.status})`);
             }
 
             // Handle Concurrent Login
@@ -60,7 +62,10 @@ export const AuthProvider = ({ children }) => {
             return { success: true };
 
         } catch (err) {
-            console.error("Login Error:", err);
+            console.error("Login Critical Error:", err);
+            // Show more details in the alert
+            const API_URL = import.meta.env.VITE_API_URL || '(relative)';
+            alert(`Login Error: ${err.message}\nRequest URL: ${API_URL}/api/auth/login\nPlease check console for details.`);
             return { success: false, error: err.message };
         }
     };
