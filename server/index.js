@@ -16,8 +16,11 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Request logging middleware (Moved to Top)
+// Request logging middleware (Moved to Top)
 app.use((req, res, next) => {
     console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+    console.log('Headers:', req.headers);
+    if (req.method === 'POST') console.log('Body:', req.body);
     next();
 });
 

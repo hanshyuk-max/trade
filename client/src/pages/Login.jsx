@@ -136,7 +136,7 @@ const Login = () => {
                 </form>
 
                 <div className="mt-8 text-sm text-zinc-600 space-y-4">
-                    <p>Protected by Antigravity Intelligence</p>
+                    <p>Protected by Antigravity Intelligence (v1.1 Debug)</p>
 
                     <div className="pt-4 border-t border-zinc-800">
                         <p className="text-zinc-500 mb-3">Don't have an account?</p>

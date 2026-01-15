@@ -50,6 +50,8 @@ export const AuthProvider = ({ children }) => {
                 data = JSON.parse(text);
             } catch (e) {
                 console.error("Login Parse Error:", text);
+                // DEBUG: Alert the actual text to see if it's HTML
+                alert(`Login Failed: Server returned non-JSON response.\n\nResponse Preview:\n${text.substring(0, 200)}`);
                 throw new Error("Invalid server response.");
             }
 
