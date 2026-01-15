@@ -33,10 +33,12 @@ export const AuthProvider = ({ children }) => {
     const login = async (username, password) => {
         try {
             // Determine API URL:
-            // - Production: Use relative path (Vercel handles routing)
-            const API_URL = ''; // Force relative path effectively for Vercel
+            // - Production: Use relative path (Empty string) so Vercel's 'rewrites' in vercel.json handle the routing.
+            // - This prevents CORS issues and ensures requests go to the same domain.
+            const API_URL = '';
 
-            alert(`Starting Login...\nTarget: ${API_URL}/api/auth/login`); // DEBUG
+            // DEBUG: Alert user to confirm JS is executing and Fetch is starting
+            alert(`[v1.2] Attempting connect to: ${window.location.origin}/api/auth/login`);
 
             const response = await fetch(`${API_URL}/api/auth/login`, {
                 method: 'POST',
@@ -44,7 +46,8 @@ export const AuthProvider = ({ children }) => {
                 body: JSON.stringify({ username, password })
             });
 
-            alert(`Fetch response status: ${response.status}`); // DEBUG
+            // DEBUG: Alert response status to check if 404 (Not Found) or 500 (Server Error) occurs
+            alert(`[v1.2] Server Response Code: ${response.status}`);
 
             // Parse response safely
             const text = await response.text();
