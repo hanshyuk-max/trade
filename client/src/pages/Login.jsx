@@ -36,6 +36,8 @@ const Login = () => {
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
+        e.stopPropagation();
+        console.log("Login submitted", { username });
         setError(null);
 
         const result = await login(username, password);
