@@ -34,10 +34,8 @@ const Login = () => {
         i18n.changeLanguage(lng);
         localStorage.setItem('i18nextLng', lng);
     };
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        alert("Handler Called"); // DEBUG
+    const handleSubmit = async () => {
+        alert("Handler Called - Starting Login Process"); // DEBUG
         console.log("Login submitted", { username });
         setError(null);
 
@@ -89,7 +87,7 @@ const Login = () => {
                     <p className="text-zinc-400 mt-2 text-lg">Sign in to manage your portfolio</p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6 text-left">
+                <div className="space-y-6 text-left">
                     <div>
                         <div className="relative">
                             <User className="absolute left-4 top-3.5 text-zinc-500 w-5 h-5" />
@@ -127,13 +125,13 @@ const Login = () => {
                     )}
 
                     <button
-                        type="submit"
+                        type="button"
                         className="w-full py-4 text-lg rounded-xl shadow-xl shadow-primary/20 bg-primary hover:bg-primary/90 text-white font-medium transition-colors"
-                        onClick={(e) => console.log('Button clicked')}
+                        onClick={handleSubmit}
                     >
                         Sign In (Standard)
                     </button>
-                </form>
+                </div>
 
                 <div className="mt-8 text-sm text-zinc-600 space-y-4">
                     <p>Protected by Antigravity Intelligence (v1.1 Debug)</p>

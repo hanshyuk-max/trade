@@ -33,15 +33,18 @@ export const AuthProvider = ({ children }) => {
     const login = async (username, password) => {
         try {
             // Determine API URL:
-            // - Development: Empty string (relies on Vite proxy)
-            // - Production: Use VITE_API_URL from environment variables
-            const API_URL = import.meta.env.VITE_API_URL || '';
+            // - Production: Use relative path (Vercel handles routing)
+            const API_URL = ''; // Force relative path effectively for Vercel
+
+            alert(`Starting Login...\nTarget: ${API_URL}/api/auth/login`); // DEBUG
 
             const response = await fetch(`${API_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password })
             });
+
+            alert(`Fetch response status: ${response.status}`); // DEBUG
 
             // Parse response safely
             const text = await response.text();
