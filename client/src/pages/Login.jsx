@@ -37,6 +37,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         e.stopPropagation();
+        alert("Handler Called"); // DEBUG
         console.log("Login submitted", { username });
         setError(null);
 
@@ -125,9 +126,13 @@ const Login = () => {
                         </motion.div>
                     )}
 
-                    <Button type="submit" className="w-full py-4 text-lg rounded-xl shadow-xl shadow-primary/20 bg-primary hover:bg-primary/90 text-white">
-                        Sign In
-                    </Button>
+                    <button
+                        type="submit"
+                        className="w-full py-4 text-lg rounded-xl shadow-xl shadow-primary/20 bg-primary hover:bg-primary/90 text-white font-medium transition-colors"
+                        onClick={(e) => console.log('Button clicked')}
+                    >
+                        Sign In (Standard)
+                    </button>
                 </form>
 
                 <div className="mt-8 text-sm text-zinc-600 space-y-4">
