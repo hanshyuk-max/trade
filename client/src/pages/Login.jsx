@@ -124,6 +124,10 @@ const Login = () => {
                         </motion.div>
                     )}
 
+                    {/* 
+                        Use type="button" instead of "submit" to prevent browser from reloading the page.
+                        The onClick handler manages the login process entirely via JavaScript.
+                    */}
                     <button
                         type="button"
                         className="w-full py-4 text-lg rounded-xl shadow-xl shadow-primary/20 bg-primary hover:bg-primary/90 text-white font-medium transition-colors"
@@ -134,7 +138,8 @@ const Login = () => {
                 </div>
 
                 <div className="mt-8 text-sm text-zinc-600 space-y-4">
-                    <p>Protected by Antigravity Intelligence (v1.1 Debug)</p>
+                    {/* Version Indicator for Deployment Verification */}
+                    <p>Protected by Antigravity Intelligence (v1.2 Ready)</p>
 
                     <div className="pt-4 border-t border-zinc-800">
                         <p className="text-zinc-500 mb-3">Don't have an account?</p>
